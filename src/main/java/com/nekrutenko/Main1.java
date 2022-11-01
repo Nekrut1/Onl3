@@ -9,12 +9,12 @@ public class Main1 {
         int sideBC = (int) ((Math.random() * 10) + 1);
         int sideAC = (int) ((Math.random() * 10) + 1);
 
-        double p = ((sideAB + sideBC + sideAC) / 2.0);
-        double s = Math.sqrt(p * (p - sideAB) * (p - sideBC) * (p - sideAC));
 
         if ((sideAB + sideBC <= sideAC) || (sideAB + sideAC <= sideBC) || (sideBC + sideAC <= sideAB)) {
             System.out.println("A triangle with sides " + sideAB + " " + sideBC + " " + sideAC + " " + "can't be constructed");
         } else {
+            double p = ((sideAB + sideBC + sideAC) / 2.0);
+            double s = Math.sqrt(p * (p - sideAB) * (p - sideBC) * (p - sideAC));
             System.out.println("Area of triangle is " + s + " and sides are equal: " + sideAB + " " + sideBC + " " + sideAC);
         }
         //Ex.2
