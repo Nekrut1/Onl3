@@ -5,14 +5,14 @@ import com.nekrutenko.model.Car;
 import java.util.Random;
 
 public class CarService {
-    public static Car create() {
+    public Car create() {
         return new Car(getRandomString(), getRandomString(), getRandomString());
     }
-    public static void print(Car car) {
+    public  void print(Car car) {
         System.out.printf("{Manufacturer: %s; Engine: %s; Color: %s; Count: %d, Price: %d$}%n",
                 car.getManufacturer(), car.getEngine(), car.getColor(), car.getCount(), car.getPrice());
     }
-    private static String getRandomString() {
+    private String getRandomString() {
         int lenght = 8;
         Random random = new Random();
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
