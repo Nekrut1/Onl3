@@ -8,7 +8,7 @@ public class Car {
     private String color;
     private int count;
     private int price;
-    Random random = new Random();
+    private Random random = new Random();
 
     public Car() {
     }
