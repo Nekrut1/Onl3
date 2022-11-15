@@ -25,24 +25,12 @@ public class Main {
         carService.changeRandomColor(car.getId());
         System.out.println(carService.find(car.getId()));
 
-        carService.print(firstCar);
-        CarService.check(firstCar);
-
-
-
-
-        /*Car firstCar = carService.create();
-        Car secondCar = carService.create();
-        Car thirdCar = carService.create();
-
-        carService.print(firstCar);
+        Car secondCar = carService.createFirstExercise();
+        Car thirdCar = carService.createFirstExercise();
         carService.print(secondCar);
         carService.print(thirdCar);
-
-        CarService.check(firstCar);
         CarService.check(secondCar);
         CarService.check(thirdCar);
 
-         */
     }
 }

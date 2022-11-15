@@ -43,13 +43,6 @@ public class CarArrayRepository {
         }
     }
 
-    //public void insert(int index, final Car car) {
-        // Example: insert(7, Car car);
-        // If 7 is not empty -> need to transfer existed values and put new value to 7 index
-        // If 7 is empty -> need to check bounds
-        // if we have empty cell before index -> use first empty cell insted of
-    //}
-
     public void updateColor(String id, Color color) {
         Car car = getById(id);
         if (car != null) {
@@ -68,7 +61,6 @@ public class CarArrayRepository {
         }
         return newLength;
     }
-
     private int putCar(Car car) {
         int index = 0;
         for (; index < cars.length; index++) {
@@ -79,7 +71,6 @@ public class CarArrayRepository {
         }
         return index;
     }
-
     private void increaseArray() {
         Car[] newCars = new Car[cars.length * 2];
         System.arraycopy(cars, 0, newCars, 0, cars.length);

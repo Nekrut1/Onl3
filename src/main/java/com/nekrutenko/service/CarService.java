@@ -15,7 +15,9 @@ public class CarService {
     public CarService(CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
-
+    public Car createFirstExercise() {
+        return new Car(getRandomString(), new Engine(), getRandomColor(), getRandomString());
+    }
     public Car create() {
         Car car = new Car(getRandomColor());
         carArrayRepository.save(car);
@@ -27,7 +29,6 @@ public class CarService {
             create();
         }
     }
-
     private Color getRandomColor() {
         Color[] values = Color.values();
         int randomIndex = random.nextInt(values.length);
@@ -101,7 +102,7 @@ public class CarService {
         } else if (car.getCount() < 1 && car.getEngine().getPower() <= 200) {
             System.out.println("They isn't any car and less power, than we need");
         } else if (car.getCount() < 1) {
-            System.out.println("No car");
+            System.out.println("If count < 1 - no car");
         } else if (car.getEngine().getPower() <= 200) {
             System.out.println("Power less, than 200");
         }
