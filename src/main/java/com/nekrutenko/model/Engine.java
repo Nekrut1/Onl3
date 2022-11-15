@@ -4,12 +4,11 @@ import java.util.Random;
 
 public class Engine {
     private final Random random = new Random();
-    private int power = random.nextInt(0,1000);
+    private int power = random.nextInt(1,1000);
     private String type;
 
     public Engine() {
     }
-
     public Engine(int power, String type) {
         this.power = power;
         this.type = type;
