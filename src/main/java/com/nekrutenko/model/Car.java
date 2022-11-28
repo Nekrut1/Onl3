@@ -1,8 +1,12 @@
 package com.nekrutenko.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Random;
 import java.util.UUID;
-
+@Getter
+@Setter
 public class Car {
     private final String id;
     private String manufacturer;
@@ -11,7 +15,9 @@ public class Car {
     private int count;
     private int price;
 
-
+    public Car() {
+        this.id = UUID.randomUUID().toString();
+    }
     public Car(Color color) {
         this.color = color;
         this.id = UUID.randomUUID().toString();
@@ -24,47 +30,6 @@ public class Car {
         Random random = new Random();
         this.count = random.nextInt(0,2);
         this.price = random.nextInt(10_000, 100_000);
-    }
-    public String getId() {
-        return id;
-    }
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-    public Engine getEngine() {
-        return engine;
-    }
-
-    public void setEngine(Engine engine) {
-        this.engine = engine;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     @Override
