@@ -35,8 +35,8 @@ class RandomGeneratorTest {
     @Test
     void getRandomNumberWrongMinus() {
         numberCars = target.randomNumber();
-        boolean Incorrect = numberCars < 0;
-        assertFalse(Incorrect);
+        boolean incorrect = numberCars < 0;
+        assertFalse(incorrect);
     }
 
     @Test
