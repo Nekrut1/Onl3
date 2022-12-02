@@ -1,7 +1,12 @@
 package com.nekrutenko.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Random;
 
+@Getter
+@Setter
 public class Engine {
     private final Random random = new Random();
     private int power = random.nextInt(1,1000);
@@ -11,22 +16,6 @@ public class Engine {
     }
     public Engine(int power, String type) {
         this.power = power;
-        this.type = type;
-    }
-
-    public int getPower() {
-        return power;
-    }
-
-    public void setPower(int power) {
-        this.power = power;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
         this.type = type;
     }
 
