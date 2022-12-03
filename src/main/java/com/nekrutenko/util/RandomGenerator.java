@@ -1,6 +1,7 @@
 package com.nekrutenko.util;
 
 import com.nekrutenko.model.Color;
+import com.nekrutenko.model.TypeCar;
 
 import java.util.Random;
 
@@ -15,6 +16,12 @@ public class RandomGenerator {
         Color[] values = Color.values();
         int randomIndex = random.nextInt(values.length);
         return values[randomIndex];
+    }
+
+    public TypeCar getRandomCarType() {
+        TypeCar[] types = TypeCar.values();
+        int randomType = random.nextInt(types.length);
+        return types[randomType];
     }
 
     public String getRandomString() {

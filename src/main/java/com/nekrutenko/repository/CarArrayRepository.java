@@ -61,6 +61,7 @@ public class CarArrayRepository {
         }
         return newLength;
     }
+
     private int putCar(Car car) {
         int index = 0;
         for (; index < cars.length; index++) {
@@ -71,6 +72,7 @@ public class CarArrayRepository {
         }
         return index;
     }
+
     private void increaseArray() {
         Car[] newCars = new Car[cars.length * 2];
         System.arraycopy(cars, 0, newCars, 0, cars.length);

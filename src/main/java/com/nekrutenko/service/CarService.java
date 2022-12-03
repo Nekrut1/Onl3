@@ -1,8 +1,6 @@
 package com.nekrutenko.service;
 
-import com.nekrutenko.model.Car;
-import com.nekrutenko.model.Color;
-import com.nekrutenko.model.Engine;
+import com.nekrutenko.model.*;
 import com.nekrutenko.repository.CarArrayRepository;
 import com.nekrutenko.util.RandomGenerator;
 
@@ -18,10 +16,7 @@ public class CarService {
     public CarService(CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
-    public Car createCar() {
-        return new Car(randomGenerator.getRandomString(), new Engine(), randomGenerator.getRandomColor(),
-                randomGenerator.getRandomString());
-    }
+
 
     public int create() {
         int count = randomGenerator.randomNumber();
@@ -34,10 +29,35 @@ public class CarService {
         }
     }
 
+    public Car createCar(TypeCar type) {
+        if (type == TypeCar.CAR) {
+            return new PassengerCar(randomGenerator.getRandomString(), new Engine(),
+                    randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
+        } else if (type == TypeCar.TRUCK) {
+            return new Truck(randomGenerator.getRandomString(), new Engine(),
+                    randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
+        }
+        return null;
+    }
+
     public void create(int count) {
         for (int i = 0; i < count; i++) {
-            carArrayRepository.save(createCar());
+            carArrayRepository.save(createCar(randomGenerator.getRandomCarType()));
         }
+    }
+
+    public PassengerCar createPassengerCar() {
+        PassengerCar passengerCar = new PassengerCar(randomGenerator.getRandomString(), new Engine(),
+                randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
+        carArrayRepository.save(passengerCar);
+        return passengerCar;
+    }
+
+    public Truck createTruck() {
+        Truck truck = new Truck(randomGenerator.getRandomString(), new Engine(),
+                randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
+        carArrayRepository.save(truck);
+        return truck;
     }
 
     public void printAll() {
@@ -55,6 +75,7 @@ public class CarService {
         }
         return carArrayRepository.getById(id);
     }
+
     public void delete(String id) {
         if (id == null || id.isEmpty()) {
             return;
