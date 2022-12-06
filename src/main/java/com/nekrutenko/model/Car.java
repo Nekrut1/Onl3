@@ -3,12 +3,13 @@ package com.nekrutenko.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
 @Getter
 @Setter
-public abstract class Car {
+public abstract class Car implements CountRestore {
     private final String id;
     private String manufacturer;
     private Engine engine;
@@ -33,6 +34,18 @@ public abstract class Car {
         this.count = random.nextInt(0,2);
         this.price = random.nextInt(10_000, 100_000);
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Car car)) return false;
+        return id.equals(car.id) && type == car.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type);
     }
 
     @Override
