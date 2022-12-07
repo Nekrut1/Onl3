@@ -35,7 +35,7 @@ class CarServiceTest {
     void createZero() {
         int expected = 0;
         Mockito.when(randomGenerator.randomNumber()).thenReturn(0);
-        Assertions.assertNotEquals(0, target.createCar(TypeCar.CAR));
+        Assertions.assertEquals(0, target.createCar(TypeCar.CAR));
     }
 
     @Test

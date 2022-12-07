@@ -31,9 +31,9 @@ public class CarService {
 
     public Car createCar(TypeCar type) {
         if (type.equals(TypeCar.CAR)) {
-            createPassengerCar();
+            return createPassengerCar();
         } else if (type.equals(TypeCar.TRUCK)) {
-            createTruck();
+            return createTruck();
         }
         return null;
     }
