@@ -1,6 +1,8 @@
 package com.nekrutenko.service;
 
 import com.nekrutenko.model.Car;
+import com.nekrutenko.model.PassengerCar;
+import com.nekrutenko.model.Truck;
 import com.nekrutenko.model.TypeCar;
 import com.nekrutenko.repository.CarArrayRepository;
 import com.nekrutenko.util.RandomGenerator;
@@ -29,13 +31,27 @@ class CarServiceTest {
         Assertions.assertDoesNotThrow(() -> target.create());
     }
 
-   /* @Test
+    @Test
     void createZero() {
         int expected = 0;
         Mockito.when(randomGenerator.randomNumber()).thenReturn(0);
-        Assertions.assertEquals(0, target.createCar());
+        Assertions.assertEquals(0, target.createCar(TypeCar.CAR));
     }
-    */
+
+    @Test
+    void createTruckTest() {
+        final Car car = target.createTruck();
+        Assertions.assertNotNull(car);
+        Assertions.assertNotEquals(0, car.getPrice());
+    }
+
+    @Test
+    void createPassengerCarTest() {
+        final Car car = target.createPassengerCar();
+        Assertions.assertNotNull(car);
+        Assertions.assertNotEquals(0, car.getPrice());
+    }
+
 
 
     @Test
@@ -53,12 +69,12 @@ class CarServiceTest {
         int actual = randomGenerator.randomNumber();
         Assertions.assertEquals(expected, actual);
     }
-   /* @Test
+    @Test
     void createCar() {
-        Car car = target.createCar();
+        Car car = new PassengerCar();
         Assertions.assertNotNull(car);
         Assertions.assertNotNull(car.getId());
-    }*/
+    }
 
     @Test
     void printAll() {
@@ -67,18 +83,18 @@ class CarServiceTest {
 
     @Test
     void printAllNotNull() {
-        Car car = new Car();
+        Car car = new PassengerCar();
         Assertions.assertNotNull(car);
     }
 
     @Test
     void print() {
-        Assertions.assertDoesNotThrow(() -> target.print(car));
+        Assertions.assertDoesNotThrow(() -> target.print(target.createPassengerCar()));
     }
 
     @Test
     void printNotNull() {
-        Car car = new Car();
+        Car car = new PassengerCar();
         Assertions.assertNotNull(car);
     }
 
@@ -89,7 +105,7 @@ class CarServiceTest {
 
     @Test
     void getAllNotNull() {
-        Car car = new Car();
+        Car car = new PassengerCar();
         Assertions.assertNotNull(car);
     }
 
@@ -119,7 +135,7 @@ class CarServiceTest {
 
     @Test
     void find() {
-        Car expected = new Car();
+        Car expected = new Truck();
         String id = "123";
         Mockito.when(repository.getById("123")).thenReturn(expected);
         Car actual = target.find(id);
@@ -158,21 +174,6 @@ class CarServiceTest {
         String id = null;
         Assertions.assertDoesNotThrow(() -> target.changeRandomColor(id));
     }
-
-    @Test
-    void checkNotThrow() {
-        Assertions.assertDoesNotThrow(() -> target.check(target.createCar(TypeCar.CAR)));
-    }
-
-    @Test
-    void checkInputNull() {
-        Assertions.assertDoesNotThrow(() -> CarService.check(null));
-    }
-
-
-
-
-
 
 
 }

@@ -4,7 +4,6 @@ import com.nekrutenko.model.*;
 import com.nekrutenko.repository.CarArrayRepository;
 import com.nekrutenko.util.RandomGenerator;
 
-import javax.script.CompiledScript;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -12,6 +11,7 @@ public class CarService {
     private final CarArrayRepository carArrayRepository;
     private final Random random = new Random();
     private final RandomGenerator randomGenerator = new RandomGenerator();
+    private TypeCar type;
 
     public CarService(CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
@@ -30,12 +30,10 @@ public class CarService {
     }
 
     public Car createCar(TypeCar type) {
-        if (type == TypeCar.CAR) {
-            return new PassengerCar(randomGenerator.getRandomString(), new Engine(),
-                    randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
-        } else if (type == TypeCar.TRUCK) {
-            return new Truck(randomGenerator.getRandomString(), new Engine(),
-                    randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
+        if (type.equals(TypeCar.CAR)) {
+            return createPassengerCar();
+        } else if (type.equals(TypeCar.TRUCK)) {
+            return createTruck();
         }
         return null;
     }
@@ -46,18 +44,26 @@ public class CarService {
         }
     }
 
-    public PassengerCar createPassengerCar() {
-        PassengerCar passengerCar = new PassengerCar(randomGenerator.getRandomString(), new Engine(),
+    public Car createPassengerCar() {
+        Car passengerCar = new PassengerCar(randomGenerator.getRandomString(), new Engine(),
                 randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
         carArrayRepository.save(passengerCar);
         return passengerCar;
     }
 
-    public Truck createTruck() {
-        Truck truck = new Truck(randomGenerator.getRandomString(), new Engine(),
+    public Car createTruck() {
+        Car truck = new Truck(randomGenerator.getRandomString(), new Engine(),
                 randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
         carArrayRepository.save(truck);
         return truck;
+    }
+
+    public boolean carEquals(Car firstCar, Car secondCar) {
+        if (firstCar.getType().equals(secondCar.getType()) && firstCar.hashCode() == secondCar.hashCode()) {
+            return firstCar.equals(secondCar);
+        } else {
+            return false;
+        }
     }
 
     public void printAll() {
