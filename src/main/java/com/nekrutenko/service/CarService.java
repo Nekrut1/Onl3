@@ -1,10 +1,12 @@
 package com.nekrutenko.service;
 
+import com.nekrutenko.exception.UserInputException;
 import com.nekrutenko.model.*;
 import com.nekrutenko.repository.CarArrayRepository;
 import com.nekrutenko.util.RandomGenerator;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Random;
 
 public class CarService {
@@ -17,6 +19,43 @@ public class CarService {
         this.carArrayRepository = carArrayRepository;
     }
 
+
+    public void printManufacturerAndCount(Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        carOptional.ifPresent(x -> {
+            System.out.printf("Manufacturer: %s, count = %d%n", x.getManufacturer(), x.getCount());
+        });
+    }
+
+    public void printColor(Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        Car carNew = carOptional.orElse(createCar(TypeCar.CAR));
+        System.out.println("Color is: " + carNew.getColor());
+    }
+
+    public void checkCount(Car car) throws UserInputException {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        Car filterCar = carOptional.filter(x -> {
+            return x.getCount() > 10;
+        }).orElseThrow(UserInputException::new);
+        System.out.printf("Manufacturer: %s, count = %d%n", filterCar.getManufacturer(), filterCar.getCount());
+    }
+
+    public void printEngineInfo(Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(Optional.ofNullable(car).orElseGet(() -> {
+            System.out.println("New random car was created");
+            return createNewRandomCar();
+        }));
+        carOptional.map(engine -> {
+            return engine.getEngine().getPower();
+        }).ifPresent(power -> System.out.println("Engine power : " + power));
+    }
+
+    public void printInfo(Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        carOptional.ifPresentOrElse(x -> print(x),
+                () -> print(createNewRandomCar()));
+    }
 
     public int create() {
         int count = randomGenerator.randomNumber();
@@ -35,7 +74,11 @@ public class CarService {
         } else if (type.equals(TypeCar.TRUCK)) {
             return createTruck();
         }
-        return null;
+        throw new IllegalArgumentException();
+    }
+
+    public Car createNewRandomCar() {
+        return createCar(randomGenerator.getRandomCarType());
     }
 
     public void create(int count) {
