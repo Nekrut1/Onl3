@@ -14,15 +14,28 @@ public class CarService {
     private final Random random = new Random();
     private final RandomGenerator randomGenerator = new RandomGenerator();
     private TypeCar type;
+    private static CarService instance;
 
     public CarService(CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
 
+    public static CarService getInstance() {
+        if (instance == null) {
+          instance = new CarService(CarArrayRepository.getInstance());
+        }
+        return instance;
+    }
+
+    public static CarService getInstance(CarArrayRepository repository) {
+        if (instance == null) {
+            instance = new CarService(repository);
+        }
+        return instance;
+    }
 
     public void printManufacturerAndCount(Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.ifPresent(x -> {
+        Optional.ofNullable(car).ifPresent(x -> {
             System.out.printf("Manufacturer: %s, count = %d%n", x.getManufacturer(), x.getCount());
         });
     }
@@ -52,8 +65,7 @@ public class CarService {
     }
 
     public void printInfo(Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.ifPresentOrElse(x -> print(x),
+        Optional.ofNullable(car).ifPresentOrElse(x -> print(x),
                 () -> print(createNewRandomCar()));
     }
 
@@ -86,7 +98,6 @@ public class CarService {
             carArrayRepository.save(createCar(randomGenerator.getRandomCarType()));
         }
     }
-
     public Car createPassengerCar() {
         Car passengerCar = new PassengerCar(randomGenerator.getRandomString(), new Engine(),
                 randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
@@ -153,8 +164,8 @@ public class CarService {
     }
 
     public void print(Car car) {
-        System.out.printf("{Manufacturer: %s; Engine: %s; Color: %s; Count: %d, Price: %d$}%n",
-                car.getManufacturer(), car.getEngine(), car.getColor(), car.getCount(), car.getPrice());
+        System.out.printf("{Id: %s; Engine: %s; Color: %s; Count: %d, Price: %d$}%n",
+                car.getId(), car.getEngine(), car.getColor(), car.getCount(), car.getPrice());
     }
 
     public static void check(Car car) {

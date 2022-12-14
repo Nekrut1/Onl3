@@ -1,46 +1,43 @@
 package com.nekrutenko;
 
-import com.nekrutenko.exception.UserInputException;
 import com.nekrutenko.model.Car;
-import com.nekrutenko.model.PassengerCar;
-import com.nekrutenko.model.Truck;
-import com.nekrutenko.model.TypeCar;
-import com.nekrutenko.repository.CarArrayRepository;
 import com.nekrutenko.service.CarService;
+import com.nekrutenko.util.AlgorithmUtil;
+
+import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) throws UserInputException {
-        CarService carService = new CarService(new CarArrayRepository());
+    public static void main(String[] args) {
+      /* Actions[] values = Actions.values();
+        String[] names = mapActionToName(values);
 
-        Car passengerCar = carService.createPassengerCar();
-        Car truck = carService.createTruck();
-        Car car = carService.createNewRandomCar();
-
-        passengerCar.restore();
-        truck.restore();
-
-        carService.printManufacturerAndCount(null);
-        carService.printManufacturerAndCount(car);
-
-        carService.printColor(null);
-        carService.printColor(car);
-
-        car.setCount(11);
-        carService.checkCount(car);
-        try {
-            car.setCount(5);
-            carService.checkCount(car);
-        } catch (UserInputException e) {
-            e.printStackTrace();
-            System.out.println("Count is less, than 10");
+        while (true) {
+            final int userChoice = UserInput.menu(names);
+            values[userChoice].execute();
         }
+    }
 
-        carService.printEngineInfo(null);
-        carService.printEngineInfo(car);
+    private static String[] mapActionToName(Actions[] values) {
+        String[] names = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            names[i] = values[i].getName();
+        }
+        return names;
+    }*/
 
-        carService.printInfo(null);
-        carService.printInfo(car);
+        AlgorithmUtil algorithmUtil = new AlgorithmUtil();
+        CarService carService = CarService.getInstance();
+        carService.create(5);
+        carService.printAll();
+        Car[] sort = algorithmUtil.bubbleSort(carService.getAll());
+        System.out.println("Sorted cars: " + Arrays.toString(sort));
 
+        int findIndex = algorithmUtil.binarySearch(sort, sort[3], 0, sort.length);
+        System.out.println("Index is : " + findIndex);
 
     }
+
 }
+
+
+
