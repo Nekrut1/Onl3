@@ -5,6 +5,17 @@ import com.nekrutenko.model.Color;
 
 public class CarArrayRepository {
     private static Car[] cars = new Car[10];
+    private static CarArrayRepository instance;
+
+    public CarArrayRepository() {
+    }
+
+    public static CarArrayRepository getInstance() {
+        if (instance == null) {
+            instance = new CarArrayRepository();
+        }
+        return instance;
+    }
 
     public void save(Car car) {
         int index = putCar(car);
@@ -77,6 +88,10 @@ public class CarArrayRepository {
         Car[] newCars = new Car[cars.length * 2];
         System.arraycopy(cars, 0, newCars, 0, cars.length);
         cars = newCars;
+    }
+
+    public int compareCar(Car first, Car second) {
+        return first.getId().compareTo(second.getId());
     }
 
 }
