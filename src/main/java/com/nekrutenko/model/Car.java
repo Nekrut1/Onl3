@@ -50,6 +50,6 @@ public abstract class Car implements CountRestore {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s",id, color);
+        return String.format("[%s] %s, Count is: %s",id, color, count);
     }
 }

@@ -1,5 +1,6 @@
 package com.nekrutenko;
 
+import com.nekrutenko.container.GreenericContainer;
 import com.nekrutenko.model.Car;
 import com.nekrutenko.service.CarService;
 import com.nekrutenko.util.AlgorithmUtil;
@@ -8,6 +9,16 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+
+        CarService carService = CarService.getInstance();
+        GreenericContainer<Car> container = new GreenericContainer<>(carService.createNewRandomCar());
+
+        container.print();
+        container.increaseCount();
+        container.print();
+        container.increaseCount(4.3);
+        container.print();
+
       /* Actions[] values = Actions.values();
         String[] names = mapActionToName(values);
 
@@ -24,16 +35,6 @@ public class Main {
         }
         return names;
     }*/
-
-        AlgorithmUtil algorithmUtil = new AlgorithmUtil();
-        CarService carService = CarService.getInstance();
-        carService.create(5);
-        carService.printAll();
-        Car[] sort = algorithmUtil.bubbleSort(carService.getAll());
-        System.out.println("Sorted cars: " + Arrays.toString(sort));
-
-        int findIndex = algorithmUtil.binarySearch(sort, sort[3], 0, sort.length);
-        System.out.println("Index is : " + findIndex);
 
     }
 

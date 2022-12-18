@@ -11,9 +11,6 @@ import java.io.InputStreamReader;
 public class UserInput {
     private static final BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));
 
-
-
-
     public static int menu(String[] names)  {
         int userChoice = -1;
         do {
