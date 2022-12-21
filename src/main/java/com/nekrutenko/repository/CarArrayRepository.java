@@ -3,7 +3,7 @@ package com.nekrutenko.repository;
 import com.nekrutenko.model.Car;
 import com.nekrutenko.model.Color;
 
-public class CarArrayRepository {
+public class CarArrayRepository implements GenericImpl<Car> {
     private static Car[] cars = new Car[10];
     private static CarArrayRepository instance;
 
