@@ -1,39 +1,39 @@
 package com.nekrutenko;
 
-import com.nekrutenko.container.CarList;
+import com.nekrutenko.container.CarTree;
 import com.nekrutenko.model.Car;
+import com.nekrutenko.model.Engine;
 import com.nekrutenko.service.CarService;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
 
         CarService carService = CarService.getInstance();
-        CarList<Car> carList = new CarList<>();
         Car car = carService.createNewRandomCar();
         Car car1 = carService.createNewRandomCar();
         Car car2 = carService.createNewRandomCar();
         Car car3 = carService.createNewRandomCar();
         Car car4 = carService.createNewRandomCar();
 
-        carList.addFirstCar(car);
-        carList.addFirstCar(car1);
-        carList.addFirstCar(car2);
-        carList.addFirstCar(car3);
-        carList.printInfo();
-        System.out.println("Add Last car: " + car4);
-        carList.addLastCar(car4);
-        carList.printInfo();
-        System.out.println("Insert car by number 3: " + car);
-        carList.insertCarByNumber(3, car);
-        carList.printInfo();
-        System.out.println("Find position by number:" + car2);
-        int position = carList.findNumber(car2);
-        System.out.println(position);
-        System.out.println("Delete car from position " + car);
-        carList.deleteByPosition(position + 1);
-        carList.printInfo();
-        System.out.println("Sum of counts: ");
-        System.out.println(carList.sumOfCounts());
+        CarTree<Car> carTree = new CarTree<>(car);
+        carTree.add(null, car1);
+        carTree.add(null, car2);
+        carTree.add(null, car3);
+        carTree.add(null, car4);
+        carTree.printInfo(carTree.getRoot());
+        System.out.println("Sum of counts: " + carTree.sum(carTree.getRoot()));
+
+
+        List<Car> cars = Arrays.asList(carService.getAll());
+        Map<String, Integer> manufacturerMap = carService.getCountFromManufacturer(cars);
+        System.out.println("Key is manufacturer and value is a count : " + manufacturerMap);
+        Map<Engine, List<Car>> engineListMap = carService.getEngineFromCar(cars);
+        System.out.println("Key is engine and value is a car : " + engineListMap);
+
     }
 }
 
