@@ -5,9 +5,7 @@ import com.nekrutenko.model.*;
 import com.nekrutenko.repository.CarArrayRepository;
 import com.nekrutenko.util.RandomGenerator;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class CarService {
     private final CarArrayRepository carArrayRepository;
@@ -22,7 +20,7 @@ public class CarService {
 
     public static CarService getInstance() {
         if (instance == null) {
-          instance = new CarService(CarArrayRepository.getInstance());
+            instance = new CarService(CarArrayRepository.getInstance());
         }
         return instance;
     }
@@ -98,6 +96,7 @@ public class CarService {
             carArrayRepository.save(createCar(randomGenerator.getRandomCarType()));
         }
     }
+
     public Car createPassengerCar() {
         Car passengerCar = new PassengerCar(randomGenerator.getRandomString(), new Engine(),
                 randomGenerator.getRandomColor(), randomGenerator.getRandomCarType());
@@ -179,4 +178,27 @@ public class CarService {
             System.out.println("Power less, than 200");
         }
     }
+
+    public Map<String, Integer> getCountFromManufacturer(List<Car> cars) {
+        Map<String, Integer> map = new HashMap<>();
+        for (Car car : cars) {
+            map.put(car.getManufacturer(), car.getCount());
+        }
+        return map;
+    }
+
+    public Map<Engine, List<Car>> getEngineFromCar(List<Car> cars) {
+        Map<Engine, List<Car>> map = new HashMap<>();
+
+        for (Car car : cars) {
+            map.put(car.getEngine(), new ArrayList<>());
+        }
+        for (Car car : cars) {
+            map.get(car.getEngine()).add(car);
+        }
+
+        return map;
+    }
+
+
 }
