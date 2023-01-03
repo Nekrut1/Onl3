@@ -6,6 +6,10 @@ import com.nekrutenko.repository.CarArrayRepository;
 import com.nekrutenko.util.RandomGenerator;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.LongStream;
 
 public class CarService {
     private final CarArrayRepository carArrayRepository;
@@ -182,22 +186,71 @@ public class CarService {
     public Map<String, Integer> getCountFromManufacturer(List<Car> cars) {
         Map<String, Integer> map = new HashMap<>();
         for (Car car : cars) {
-            map.put(car.getManufacturer(), car.getCount());
+            String manufacturer = car.getManufacturer();
+            map.computeIfPresent(manufacturer, (key, value) -> value + car.getCount());
+            map.putIfAbsent(manufacturer, car.getCount());
         }
         return map;
     }
 
-    public Map<Engine, List<Car>> getEngineFromCar(List<Car> cars) {
-        Map<Engine, List<Car>> map = new HashMap<>();
-
+    public Map<Integer, ArrayList<Car>> getEngineFromCar(List<Car> cars) {
+        Map<Integer, ArrayList<Car>> map = new HashMap<>();
         for (Car car : cars) {
-            map.put(car.getEngine(), new ArrayList<>());
+            map.putIfAbsent(car.getEngine().getPower(), new ArrayList<>());
+            map.get(car.getEngine().getPower()).add(car);
         }
-        for (Car car : cars) {
-            map.get(car.getEngine()).add(car);
-        }
-
         return map;
+    }
+
+    public void findManufacturerByPrice(List<Car> cars) {
+        cars.stream().
+                filter(car -> car.getPrice() > 15_000).
+                forEach(car -> System.out.printf("Manufacturer is: %s, and price is: %s%n",
+                        car.getManufacturer(), car.getPrice()));
+    }
+
+    public void countSum(List<Car> cars) {
+        Optional<Integer> sum = Optional.of(cars.stream().
+                map(Car::getCount)
+                .reduce(0, Integer::sum));
+        System.out.println("Sum of counting cars is: " + sum.get());
+    }
+
+    public Map<String, TypeCar> mapToMap(List<Car> cars) {
+        LinkedHashMap<String, TypeCar> sort = cars.stream()
+                .sorted(Comparator.comparing(Car::getManufacturer))
+                .distinct()
+                .collect(Collectors.toMap(Car::getId, Car::getType, (x, y) -> x, LinkedHashMap::new));
+        System.out.println("Sorted cars by manufacturer: " + sort);
+        return sort;
+    }
+
+    public String statistic(List<Car> cars) {
+        String info = cars.stream()
+                .mapToInt(Car::getPrice)
+                .summaryStatistics()
+                .toString();
+        System.out.println(info);
+        return info;
+    }
+
+    public boolean priceCheck(List<Car> cars, int price) {
+        boolean result = cars.stream().
+                mapToInt(Car::getPrice).
+                allMatch((value -> value > price));
+        System.out.println(result);
+        return result;
+    }
+
+    public Map<Color, Integer> innerList(List<List<Car>> listCars, int price) {
+        return listCars.stream().
+                flatMap(Collection::stream).
+                sorted(Comparator.comparing(Car::getColor)).
+                distinct().
+                peek(System.out::println).
+                filter(v -> v.getPrice() < price).
+                collect(Collectors.toMap(Car::getColor, Car::getCount, (x, y) -> x, LinkedHashMap::new));
+
     }
 
 
