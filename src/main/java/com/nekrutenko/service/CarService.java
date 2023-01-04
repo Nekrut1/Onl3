@@ -210,10 +210,10 @@ public class CarService {
     }
 
     public void countSum(List<Car> cars) {
-        Optional<Integer> sum = Optional.of(cars.stream().
+        int sum = cars.stream().
                 map(Car::getCount)
-                .reduce(0, Integer::sum));
-        System.out.println("Sum of counting cars is: " + sum.get());
+                .reduce(0, Integer::sum);
+        System.out.println("Sum of counting cars is: " + sum);
     }
 
     public Map<String, TypeCar> mapToMap(List<Car> cars) {
@@ -248,10 +248,31 @@ public class CarService {
                 sorted(Comparator.comparing(Car::getColor)).
                 distinct().
                 peek(System.out::println).
-                filter(v -> v.getPrice() < price).
+                filter(v -> v.getPrice() > price).
                 collect(Collectors.toMap(Car::getColor, Car::getCount, (x, y) -> x, LinkedHashMap::new));
 
     }
 
+    public Car mapToObject(Map<String, Object> objectMap) {
+        Function<Map<String, Object>, Car> function = (mapper -> {
+            if (mapper.get("type") == TypeCar.CAR) {
+                return new PassengerCar();
+            } else if (mapper.get("type") == TypeCar.TRUCK) {
+                return new Truck();
+            } else {
+                throw new NullPointerException("Type of car not exist");
+            }
+
+        });
+
+        return function.andThen(x -> {
+                    x.setManufacturer((String) objectMap.get("manufacturer"));
+                    x.setColor((Color) objectMap.get("color"));
+                    x.setCount((int) objectMap.get("count"));
+                    x.setPrice((int) objectMap.get("price"));
+                    return x;
+                })
+                .apply(objectMap);
+    }
 
 }

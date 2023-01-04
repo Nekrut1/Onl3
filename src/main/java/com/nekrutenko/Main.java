@@ -21,7 +21,6 @@ public class Main {
         Car car4 = carService.createNewRandomCar();
 
         List<Car> cars = Arrays.asList(carService.getAll());
-
         System.out.println("Cars with price more tnan 15000 and they manufacturer:");
         carService.findManufacturerByPrice(cars);
 
@@ -40,10 +39,20 @@ public class Main {
         System.out.println("======".repeat(10));
         List<List<Car>> listsNew = new ArrayList<>();
         listsNew.add(cars);
-        Map<Color, Integer> mapNew = carService.innerList(listsNew, 13000);
+        Map<Color, Integer> mapNew = carService.innerList(listsNew, 17500);
         System.out.println("======".repeat(10));
         System.out.println("Sorted by price and color: " + mapNew);
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", TypeCar.CAR);
+        map.put("manufacturer", car.getManufacturer());
+        map.put("color", Color.GREEN);
+        map.put("count", 5);
+        map.put("price", 16_000);
+
+        System.out.println("New car by Map:");
+        Car carByMap = carService.mapToObject(map);
+        carService.print(carByMap);
 
     }
 }
