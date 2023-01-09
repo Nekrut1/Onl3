@@ -32,7 +32,7 @@ public abstract class Car implements CountRestore {
         this.id = UUID.randomUUID().toString();
         Random random = new Random();
         this.count = random.nextInt(1,25);
-        this.price = random.nextInt(10_000, 100_000);
+        this.price = random.nextInt(10_000, 20_000);
         this.type = type;
     }
 

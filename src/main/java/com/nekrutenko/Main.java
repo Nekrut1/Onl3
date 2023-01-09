@@ -2,12 +2,13 @@ package com.nekrutenko;
 
 import com.nekrutenko.container.CarTree;
 import com.nekrutenko.model.Car;
+import com.nekrutenko.model.Color;
 import com.nekrutenko.model.Engine;
+import com.nekrutenko.model.TypeCar;
+import com.nekrutenko.repository.CarArrayRepository;
 import com.nekrutenko.service.CarService;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,20 +20,39 @@ public class Main {
         Car car3 = carService.createNewRandomCar();
         Car car4 = carService.createNewRandomCar();
 
-        CarTree<Car> carTree = new CarTree<>(car);
-        carTree.add(null, car1);
-        carTree.add(null, car2);
-        carTree.add(null, car3);
-        carTree.add(null, car4);
-        carTree.printInfo(carTree.getRoot());
-        System.out.println("Sum of counts: " + carTree.sum(carTree.getRoot()));
-
-
         List<Car> cars = Arrays.asList(carService.getAll());
-        Map<String, Integer> manufacturerMap = carService.getCountFromManufacturer(cars);
-        System.out.println("Key is manufacturer and value is a count : " + manufacturerMap);
-        Map<Engine, List<Car>> engineListMap = carService.getEngineFromCar(cars);
-        System.out.println("Key is engine and value is a car : " + engineListMap);
+        System.out.println("Cars with price more tnan 15000 and they manufacturer:");
+        carService.findManufacturerByPrice(cars);
+
+        System.out.println("======".repeat(10));
+        carService.countSum(cars);
+
+        System.out.println("======".repeat(10));
+        carService.statistic(cars);
+
+        System.out.println("======".repeat(10));
+        carService.priceCheck(cars, 12000);
+
+        System.out.println("======".repeat(10));
+        carService.mapToMap(cars);
+
+        System.out.println("======".repeat(10));
+        List<List<Car>> listsNew = new ArrayList<>();
+        listsNew.add(cars);
+        Map<Color, Integer> mapNew = carService.innerList(listsNew, 17500);
+        System.out.println("======".repeat(10));
+        System.out.println("Sorted by price and color: " + mapNew);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", TypeCar.CAR);
+        map.put("manufacturer", car.getManufacturer());
+        map.put("color", Color.GREEN);
+        map.put("count", 5);
+        map.put("price", 16_000);
+
+        System.out.println("New car by Map:");
+        Car carByMap = carService.mapToObject(map);
+        carService.print(carByMap);
 
     }
 }
